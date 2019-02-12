@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HabitsDashboardActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:id="@+id/ConstrainLayout_main"
+        android:fitsSystemWindows="true" >
+
+    <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/ic_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:id="@+id/floatingActionButton_new_habit"
+            android:focusable="true"
+            android:foregroundGravity=""
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fitsSystemWindows="true"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            android:layout_marginEnd="12dp"
+            app:backgroundTint="#00ACC1"/>
+
+    <android.support.design.widget.BottomNavigationView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#E6FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/bottomNavigationView"
+            app:menu="@menu/bottom_nav_menu"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
+
+</android.support.constraint.ConstraintLayout>

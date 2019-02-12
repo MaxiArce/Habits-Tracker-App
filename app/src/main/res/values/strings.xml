@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">HabitsTracker</string>
+    <string name="habit_checkbox">Habit</string>
+    <string name="month">Month</string>
+    <string name="list">List</string>
+    <string name="goals">Goals</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview">TextView</string>
+    <string name="add_new_habit">Add a New Habit</string>
+    <string name="habit_name">Habit Name</string>
+    <string name="habit_description">Habit Description</string>
+</resources>

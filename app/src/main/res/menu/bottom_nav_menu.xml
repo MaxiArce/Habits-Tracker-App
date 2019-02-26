@@ -4,16 +4,16 @@
     <item
             android:id="@+id/habits_month_view"
             android:title="@string/month"
-            android:icon="@android:drawable/ic_menu_today"/>
+            android:icon="@drawable/ic_month"/>
 
     <item
             android:id="@+id/habits_list_view"
             android:title="@string/list"
-            android:icon="@android:drawable/checkbox_on_background"/>
+            android:icon="@drawable/ic_list"/>
 
     <item
             android:id="@+id/habits_goals"
             android:title="@string/goals"
-            android:icon="@android:drawable/btn_star"/>
+            android:icon="@drawable/ic_goals"/>
 
 </menu>

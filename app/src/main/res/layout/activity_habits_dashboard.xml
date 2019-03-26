@@ -82,7 +82,7 @@
             android:src="@android:drawable/ic_input_add"
             android:clickable="true" android:id="@+id/floatingActionButton_new_habit"
             android:layout_gravity="bottom|center_horizontal" app:fabSize="mini"
-            app:backgroundTint="@color/colorPrimaryDark" android:background="@drawable/ic_add"
+            app:backgroundTint="@color/colorPrimaryDark"
             android:tint="@color/colorWhite" android:layout_marginBottom="16dp"/>
 
     <android.support.design.widget.BottomNavigationView

@@ -8,16 +8,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.maxiarce.habitstracker.DatabaseHelper
+import com.maxiarce.habitstracker.*
+import com.maxiarce.habitstracker.helpers.AnimateHabitClickListener
+import com.maxiarce.habitstracker.helpers.DatabaseHelper
 import com.maxiarce.habitstracker.models.HabitItem
-import com.maxiarce.habitstracker.R
 import kotlinx.android.synthetic.main.row_habits.view.*
 
 
 
-class HabitsAdapter(private var data : MutableList<HabitItem>): RecyclerView.Adapter<ViewHolder>() {
+class HabitsAdapter(val animateHabitClickListener: AnimateHabitClickListener, private var data : MutableList<HabitItem>): RecyclerView.Adapter<ViewHolder>() {
     lateinit var context: Context
-    lateinit var db:DatabaseHelper
+    lateinit var db: DatabaseHelper
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         context = viewGroup.context
@@ -43,7 +44,7 @@ class HabitsAdapter(private var data : MutableList<HabitItem>): RecyclerView.Ada
             row.habits_row_text.typeface = typeface
             row.habits_row_description.text = data[position].habitDescription
 
-            val background = row.imageView_dot
+            val background = row.imageView_dot_background
             val shape : GradientDrawable = background.background as GradientDrawable
             shape.setColor(Color.parseColor(data[position].color))
 
@@ -51,6 +52,10 @@ class HabitsAdapter(private var data : MutableList<HabitItem>): RecyclerView.Ada
                 if(viewHolder.row.radioButton_habit.isChecked){
                     updateStatus(position)
                 }
+            }
+
+            viewHolder.itemView.setOnClickListener{
+                animateHabitClickListener.onHabitClick(data[position].id, row.habits_row_text,row.habits_row_description,row.imageView_dot_background,data[position].color)
             }
 
             if (data[position].status ==1){

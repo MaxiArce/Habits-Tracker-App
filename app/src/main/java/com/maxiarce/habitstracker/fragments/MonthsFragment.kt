@@ -1,25 +1,17 @@
 package com.maxiarce.habitstracker.fragments
 
 
-import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.maxiarce.habitstracker.DatabaseHelper
+import com.maxiarce.habitstracker.helpers.DatabaseHelper
 import com.maxiarce.habitstracker.R
-import com.maxiarce.habitstracker.adapters.HabitsAdapter
 import com.maxiarce.habitstracker.adapters.HabitsMonthAdapter
-import com.sdsmdg.harjot.vectormaster.VectorMasterView
-import kotlinx.android.synthetic.main.activity_habits_dashboard.*
-import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match

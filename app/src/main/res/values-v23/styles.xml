@@ -8,7 +8,8 @@
         <item name="android:fontFamily">@font/googlesansregular</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowAnimationStyle">@null</item>
-    <item name="colorControlHighlight">#E6BCCB</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="colorControlHighlight">#E6BCCB</item>
 
     </style>
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">

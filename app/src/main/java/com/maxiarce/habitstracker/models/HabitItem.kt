@@ -9,15 +9,17 @@ class HabitItem{
     var color: String = ""
     var status: Int = 0
     var days: Int = 0
+    var randomDaysReveal = ""
     var dateStamp:Long =  System.currentTimeMillis()
     var type:Int = 0
 
 
-    constructor(habitText : String, habitDescription: String ,color: String, status: Int,type: Int){
+    constructor(habitText : String, habitDescription: String ,color: String, status: Int,randomDays: String,type: Int){
         this.habitText = habitText
         this.habitDescription = habitDescription
         this.color = color
         this.status = status
+        this.randomDaysReveal = randomDays
         this.type = type
     }
 
@@ -28,6 +30,7 @@ class HabitItem{
         this.color = color
         this.status = status
         this.days = days
+        this.randomDaysReveal = randomDaysReveal
         this.type =type
     }
 

@@ -74,7 +74,7 @@ class HabitsAdapter(val animateHabitClickListener: AnimateHabitClickListener, pr
     }
 
     fun updateStatus(position: Int){
-        db.updateDataDays(data[position].id,data[position].days)
+        db.updateDataDays(data[position])
     }
 
 }

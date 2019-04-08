@@ -12,6 +12,9 @@ class HabitItem{
     var randomDaysReveal = ""
     var dateStamp:Long =  System.currentTimeMillis()
     var type:Int = 0
+    var daysInRow = 0
+    var daysInRowTotal = 0
+    var daysOutOfRow = 0
 
 
     constructor(habitText : String, habitDescription: String ,color: String, status: Int,randomDays: String,type: Int){
@@ -32,6 +35,9 @@ class HabitItem{
         this.days = days
         this.randomDaysReveal = randomDaysReveal
         this.type =type
+        this.daysInRow = daysInRow
+        this.daysInRowTotal = daysInRowTotal
+        this.daysOutOfRow = daysOutOfRow
     }
 
 }

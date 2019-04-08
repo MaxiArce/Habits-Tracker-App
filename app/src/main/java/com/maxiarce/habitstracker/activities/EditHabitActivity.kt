@@ -142,8 +142,7 @@ class EditHabitActivity : AppCompatActivity() {
             textView_habit_description_edit_activity.text = "No Description"
         }
 
-        //TODO
-        textView_days_in_a_row_edit_activity.text = "30 days in a row"
+        textView_days_in_a_row_edit_activity.text = "Currently ${item.daysInRow} days in a row"
         textView_days_left_edit_activity.text = "$daysLeft days left before getting your picture back"
     }
 

@@ -4,19 +4,23 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
+import android.provider.MediaStore
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.maxiarce.habitstracker.models.HabitItem
 import com.maxiarce.habitstracker.R
+import com.maxiarce.habitstracker.helpers.DatabaseHelper
 import com.sdsmdg.harjot.vectormaster.VectorMasterDrawable
-import com.sdsmdg.harjot.vectormaster.VectorMasterView
 import kotlinx.android.synthetic.main.row_habits_calendar.view.*
 
 
-class HabitsMonthAdapter(private var data : MutableList<HabitItem>): RecyclerView.Adapter<ViewHolderCalendar>() {
+
+
+class HabitsMonthAdapter(var data : MutableList<HabitItem>): RecyclerView.Adapter<ViewHolderCalendar>() {
 
     lateinit var context: Context
 
@@ -33,23 +37,24 @@ class HabitsMonthAdapter(private var data : MutableList<HabitItem>): RecyclerVie
     override fun onBindViewHolder(viewHolder: ViewHolderCalendar, position: Int) {
         val card = viewHolder.card
         val title = data[position].habitText
+        val bitmapImage = BitmapFactory.decodeFile("/data/data/com.maxiarce.habitstracker/files/$title")
         val daysleft = data[position].type - data[position].days
         val daysToReveal = convertStringtoArray(data[position].randomDaysReveal)
-        var vectorMasterDrawable = VectorMasterDrawable(context,R.drawable.mask_month_image)
-
-
-        if(data[position].type == 60){
-             vectorMasterDrawable = VectorMasterDrawable(context,R.drawable.mask_month_image_60)
+        val vectorMasterDrawable =
+            if(data[position].type == 60){
+            VectorMasterDrawable(context,R.drawable.mask_month_image_60)
+        }else{
+            VectorMasterDrawable(context,R.drawable.mask_month_image)
         }
 
         card.textView_calendar_title.text = data[position].habitText
         card.textView_calendar_description.text = data[position].habitDescription
         card.ContraintLayout_habits_calendar.setBackgroundColor(Color.parseColor(data[position].color))
-        card.imageView_background_calendar.setImageBitmap(BitmapFactory.decodeFile("/data/data/com.maxiarce.habitstracker/files/$title"))
+        card.imageView_background_calendar.setImageBitmap(bitmapImage)
         card.vector_imageMask.setImageDrawable(vectorMasterDrawable)
         card.textView_days_left.text = "$daysleft days left before getting your picture back"
 
-        val maskBackground =vectorMasterDrawable.getPathModelByName("background")
+        val maskBackground = vectorMasterDrawable.getPathModelByName("background")
         maskBackground.fillColor = Color.parseColor(data[position].color)
 
 
@@ -68,6 +73,19 @@ class HabitsMonthAdapter(private var data : MutableList<HabitItem>): RecyclerVie
         //set the mask
         card.vector_imageMask.setImageDrawable(vectorMasterDrawable)
 
+        if (data[position].days == data[position].type){
+            card.imageButton_get_picture_back.setImageResource(R.drawable.ic_chest_open)
+            card.textView_days_left.text = "Press to get your picture back"
+            card.imageButton_get_picture_back.setOnClickListener {
+                MediaStore.Images.Media.insertImage(context.contentResolver,bitmapImage,title,"")
+                Toast.makeText(context,"Image saved to gallery",Toast.LENGTH_SHORT).show()
+                val db = DatabaseHelper(context)
+                db.deleteData(data[position].id)
+                data.removeAt(0)
+                notifyItemRemoved(position)
+
+            }
+        }
 
     }
 
@@ -75,8 +93,6 @@ class HabitsMonthAdapter(private var data : MutableList<HabitItem>): RecyclerVie
         val strSeparator = ","
         return str.split(strSeparator)
     }
-
-
 
 }
 

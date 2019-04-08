@@ -4,8 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import android.widget.Toast
 import com.maxiarce.habitstracker.models.HabitItem
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -20,11 +22,14 @@ val COL_DAYS = "dayscount"
 val COL_RANDOM_DAYS = "randomdays"
 val COL_DATE_STAMP = "daystamp"
 val COL_TYPE = "calendartype"
+val COL_DAYS_IN_ROW = "daysinrow"
+val COL_DAYS_IN_ROW_TOTAL = "daysinrowtotal"
+val COL_DAYS_OUT_OF_ROW = "daysoutofrow"
 
 class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
     DATADABASE_NAME,null,1){
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTable = "CREATE TABLE " + TABLE_NAME +" (" + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," + COL_HABIT_TEXT + " TEXT," + COL_HABIT_DESCRIPTION + " TEXT," + COL_HABIT_COLOR +" INTEGER,"+ COL_STATUS +" INTEGER,"+ COL_DAYS +" INTEGER,"+ COL_RANDOM_DAYS +" TEXT," + COL_DATE_STAMP +" INTEGER, "+ COL_TYPE +" INTEGER)"
+        val createTable = "CREATE TABLE " + TABLE_NAME +" (" + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," + COL_HABIT_TEXT + " TEXT," + COL_HABIT_DESCRIPTION + " TEXT," + COL_HABIT_COLOR +" INTEGER,"+ COL_STATUS +" INTEGER,"+ COL_DAYS +" INTEGER,"+ COL_RANDOM_DAYS +" TEXT," + COL_DATE_STAMP +" INTEGER, " + COL_TYPE +" INTEGER," + COL_DAYS_IN_ROW + " INTEGER, "+ COL_DAYS_IN_ROW_TOTAL+ " INTEGER, "+ COL_DAYS_OUT_OF_ROW +" INTEGER )"
         db?.execSQL(createTable)
 
     }
@@ -44,6 +49,10 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
         contVal.put(COL_RANDOM_DAYS,habitItem.randomDaysReveal)
         contVal.put(COL_DATE_STAMP,habitItem.dateStamp)
         contVal.put(COL_TYPE,habitItem.type)
+        contVal.put(COL_DAYS_IN_ROW,habitItem.daysInRow)
+        contVal.put(COL_DAYS_IN_ROW_TOTAL,habitItem.daysInRowTotal)
+        contVal.put(COL_DAYS_OUT_OF_ROW,habitItem.daysOutOfRow)
+
 
         val result = db.insert(TABLE_NAME,null,contVal)
         if (result == -1.toLong())
@@ -76,6 +85,10 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
                 habitItem.randomDaysReveal = result.getString(result.getColumnIndex(COL_RANDOM_DAYS))
                 habitItem.dateStamp = result.getString(result.getColumnIndex(COL_DATE_STAMP)).toLong()
                 habitItem.type = result.getString(result.getColumnIndex(COL_TYPE)).toInt()
+                habitItem.daysInRow = result.getString(result.getColumnIndex(COL_DAYS_IN_ROW)).toInt()
+                habitItem.daysInRowTotal = result.getString(result.getColumnIndex(COL_DAYS_IN_ROW_TOTAL)).toInt()
+                habitItem.daysOutOfRow = result.getString(result.getColumnIndex(COL_DAYS_OUT_OF_ROW)).toInt()
+
                 list.add(habitItem)
             }while (result.moveToNext())
         }
@@ -112,6 +125,9 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
                 habitItem.randomDaysReveal = result.getString(result.getColumnIndex(COL_RANDOM_DAYS))
                 habitItem.dateStamp = result.getString(result.getColumnIndex(COL_DATE_STAMP)).toLong()
                 habitItem.type = result.getString(result.getColumnIndex(COL_TYPE)).toInt()
+                habitItem.daysInRow = result.getString(result.getColumnIndex(COL_DAYS_IN_ROW)).toInt()
+                habitItem.daysInRowTotal = result.getString(result.getColumnIndex(COL_DAYS_IN_ROW_TOTAL)).toInt()
+                habitItem.daysOutOfRow = result.getString(result.getColumnIndex(COL_DAYS_OUT_OF_ROW)).toInt()
             }while (result.moveToNext())
         }
         result.close()
@@ -133,6 +149,10 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
         contVal.put(COL_RANDOM_DAYS,item.randomDaysReveal)
         contVal.put(COL_DATE_STAMP,item.dateStamp)
         contVal.put(COL_TYPE,item.type)
+        contVal.put(COL_DAYS_IN_ROW,item.daysInRow)
+        contVal.put(COL_DAYS_IN_ROW_TOTAL,item.daysInRowTotal)
+        contVal.put(COL_DAYS_OUT_OF_ROW,item.daysOutOfRow)
+
 
         db.update(
             TABLE_NAME,contVal,
@@ -141,25 +161,43 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(context,
     }
 
 
-    fun updateDataDays(id: Int, days :Int){
+    fun updateDataDays(habitItem: HabitItem){
         val db = this.writableDatabase
         var contVal =  ContentValues()
 
-        contVal.put(COL_DAYS,days+1)
+        val daydiff = TimeUnit.MILLISECONDS.toDays((System.currentTimeMillis() - habitItem.dateStamp))
+
+        if (daydiff.toInt() ==0 ){
+            contVal.put(COL_DAYS_IN_ROW,1)
+        }
+        if (daydiff.toInt() == 1){
+            contVal.put(COL_DAYS_IN_ROW,habitItem.daysInRow +1)
+            contVal.put(COL_DAYS_IN_ROW_TOTAL,habitItem.daysInRowTotal+1)
+        }
+        if (daydiff.toInt() > 1){
+            contVal.put(COL_DAYS_IN_ROW,0)
+            contVal.put(COL_DAYS_OUT_OF_ROW,habitItem.daysOutOfRow+daydiff)
+        }
+
+        contVal.put(COL_DAYS,habitItem.days+1)
         contVal.put(COL_STATUS,1)
         contVal.put(COL_DATE_STAMP,System.currentTimeMillis())
 
-        db.update(TABLE_NAME,contVal, COL_ID +"=? ", arrayOf(id.toString()))
+        Log.d("UPDATE",contVal.toString())
+
+        db.update(TABLE_NAME,contVal, COL_ID +"=? ", arrayOf(habitItem.id.toString()))
         db.close()
+
 
     }
 
-    fun updateDataStatus(id: Int,status:Int){
+    fun updateCheckStatusOnStart(id: Int,status:Int){
         val db = this.writableDatabase
-        var cv =  ContentValues()
-        cv.put(COL_STATUS,status)
-        cv.put(COL_DATE_STAMP,System.currentTimeMillis())
-        db.update(TABLE_NAME,cv, COL_ID +"=? ", arrayOf(id.toString()))
+        var contVal =  ContentValues()
+
+        contVal.put(COL_STATUS,status)
+
+        db.update(TABLE_NAME,contVal, COL_ID +"=? ", arrayOf(id.toString()))
         db.close()
 
     }

@@ -31,6 +31,7 @@ import com.maxiarce.habitstracker.helpers.AnimateHabitClickListener
 import com.maxiarce.habitstracker.helpers.DatabaseHelper
 import com.maxiarce.habitstracker.R
 import com.maxiarce.habitstracker.adapters.HabitsAdapter
+import com.maxiarce.habitstracker.fragments.GoalsFragment
 import com.maxiarce.habitstracker.fragments.MonthsFragment
 import com.maxiarce.habitstracker.models.HabitItem
 import kotlinx.android.synthetic.main.activity_habits_dashboard.*
@@ -50,19 +51,28 @@ class HabitsDashboardActivity : AppCompatActivity(), AnimateHabitClickListener {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.habits_month_view -> {
+                Log.d("NavItemSelectedListener", "Months Selected")
+                supportFragmentManager.popBackStack()
                 appbar.visibility = View.GONE
                 floatingActionButton_new_habit.hide()
                 replaceFragment(MonthsFragment())
                 return@OnNavigationItemSelectedListener true
             }
+
             R.id.habits_list_view -> {
                 Log.d("NavItemSelectedListener", "List Selected")
+                updateDb()
                 closeFragment()
                 return@OnNavigationItemSelectedListener true
 
             }
+
             R.id.habits_goals -> {
                 Log.d("NavItemSelectedListener", "Goals Selected")
+                supportFragmentManager.popBackStack()
+                appbar.visibility = View.GONE
+                floatingActionButton_new_habit.hide()
+                replaceFragment(GoalsFragment())
                 return@OnNavigationItemSelectedListener true
 
             }
@@ -121,19 +131,22 @@ class HabitsDashboardActivity : AppCompatActivity(), AnimateHabitClickListener {
 
     override fun onResume() {
         super.onResume()
+        updateDb()
+    }
+
+    fun updateDb(){
         db = DatabaseHelper(this)
         data = db.readData()
         recyclerView.adapter = HabitsAdapter(this,data)
-
     }
+
     fun updateHabits(){
-        //update status of the habits
+        //update check status of the habits
         for(i in 0 until data.size){
             val diffDays = System.currentTimeMillis() - data[i].dateStamp
             Log.d("DAYSDIFF",(TimeUnit.MILLISECONDS.toDays(diffDays).toString()) )
             if(TimeUnit.MILLISECONDS.toDays(diffDays)>0 && data[i].status == 1) {
-                data[i].status = 0
-                db.updateDataStatus(data[i].id, 0)
+                db.updateCheckStatusOnStart(data[i].id, 0)
             }
         }
     }

@@ -33,51 +33,50 @@
                     android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"/>
             <TextView
-                    android:text="@string/habit_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_calendar_description"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView_calendar_title"
-                    app:layout_constraintStart_toStartOf="@+id/textView_calendar_title"
-                    app:layout_constraintEnd_toEndOf="@+id/textView_calendar_title" android:textAlignment="center"
-                    android:textSize="18sp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
-                    android:background="@android:color/transparent"/>
+                android:text="@string/habit_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_calendar_description"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView_calendar_title"
+                app:layout_constraintStart_toStartOf="@+id/textView_calendar_title"
+                app:layout_constraintEnd_toEndOf="@+id/textView_calendar_title" android:textAlignment="center"
+                android:textSize="18sp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"/>
 
 
             <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/constraintLayout"
-                    app:layout_constraintBottom_toTopOf="@+id/textView_days_left"
-                    app:layout_constraintTop_toBottomOf="@+id/textView_calendar_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/constraintLayout"
+                app:layout_constraintBottom_toTopOf="@+id/textView_days_left"
+                app:layout_constraintTop_toBottomOf="@+id/textView_calendar_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:id="@+id/imageView_background_calendar"
-                        app:layout_constraintEnd_toEndOf="@+id/vector_imageMask"
-                        app:layout_constraintStart_toStartOf="@+id/vector_imageMask"
-                        app:layout_constraintTop_toTopOf="@+id/vector_imageMask"
-                        app:layout_constraintBottom_toBottomOf="@+id/vector_imageMask"
-                        android:scaleType="centerCrop" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp" android:layout_marginEnd="8dp">
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/imageView_background_calendar"
+                    app:layout_constraintEnd_toEndOf="@+id/vector_imageMask"
+                    app:layout_constraintStart_toStartOf="@+id/vector_imageMask"
+                    app:layout_constraintTop_toTopOf="@+id/vector_imageMask"
+                    app:layout_constraintBottom_toBottomOf="@+id/vector_imageMask"
+                    android:scaleType="centerCrop" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp" android:layout_marginEnd="8dp">
 
                 </android.support.v7.widget.AppCompatImageView>
 
                 <android.support.v7.widget.AppCompatImageView
 
-                        android:id="@+id/vector_imageMask"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/mask_month_image"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent">
+                    android:id="@+id/vector_imageMask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                 </android.support.v7.widget.AppCompatImageView>
 
@@ -98,15 +97,15 @@
                     app:layout_constraintBottom_toTopOf="@+id/imageButton_get_picture_back"
                     android:background="@android:color/transparent"/>
             <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:transitionName="dotTransition"
-                    app:srcCompat="@drawable/ic_chest"
-                    android:id="@+id/imageButton_get_picture_back"
-                    app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-                    app:layout_constraintStart_toStartOf="@+id/constraintLayout"
-                    app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:transitionName="dotTransition"
+                app:srcCompat="@drawable/ic_chest_closed"
+                android:id="@+id/imageButton_get_picture_back"
+                app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+                android:background="@android:color/transparent"/>
 
 
         </android.support.constraint.ConstraintLayout>
